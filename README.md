@@ -221,9 +221,6 @@ LUAD_MYC_ChIPseq/
 *(Large FASTQ/BAM files not included.)*
 
 
-(Large FASTQ/BAM files not included.)
-
-
 ## License
 
 Released under the MIT License.
