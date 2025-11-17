@@ -1,71 +1,71 @@
-## LUAD_MYC_ChIPseq
+## LUAD MYC ChIP-seq - Mapping MYC Binding Sites in Lung Adenocarcinoma (A549)
 
-LUAD MYC ChIP-seq: Mapping MYC Binding Sites in Lung Adenocarcinoma (A549)
-
-End-to-end ChIP-seq analysis of MYC regulatory networks in lung cancer
-
-🚀 Overview
+# Overview
 
 This project performs a complete ChIP-seq pipeline to identify genome-wide binding sites of the oncogenic transcription factor MYC in A549 lung adenocarcinoma (LUAD) cells.
 Using ENCODE-matched replicates (2 MYC + 2 IgG controls), the analysis recovers:
 
-High-confidence MYC binding peaks
+- High-confidence MYC binding peaks
 
-Direct MYC-regulated oncogenes
+- Direct MYC-regulated oncogenes
 
-Key LUAD pathways controlled by MYC
+- Key LUAD pathways controlled by MYC
 
-Peak annotation, motif enrichment, and pathway biology
+- Peak annotation, motif enrichment, and pathway biology
 
-This project demonstrates both bioinformatics workflow skills and cancer genomics interpretation, suitable for bioinformatics roles, computational biology internships, and junior scientist positions.
 
-🧬 Biological Motivation
+# Biological Motivation
 
 MYC is a master regulator of tumor growth. In LUAD, MYC drives:
 
-Ribosome biogenesis
+- Ribosome biogenesis
 
-Protein synthesis
+- Protein synthesis
 
-Metabolic rewiring
+- Metabolic rewiring
 
-Cell-cycle progression
+- Cell-cycle progression
 
-Stress and survival signaling
+- Stress and survival signaling
 
-Goal:
+# Goal
 
 Identify where MYC binds the genome in A549 cells, and what biological programs MYC directly regulates.
 
-📁 Data Summary
-Condition	Replicates	Description
-MYC ChIP	2	MYC-bound DNA fragments
-IgG Control	2	Background noise
+# Data Summary
+
+| Condition       | Replicate | SRA ID        | File Name            | Source Link                                                                              |
+| --------------- | --------- | ------------- | -------------------- | ---------------------------------------------------------------------------------------- |
+| **MYC ChIP**    | Rep 1     | **SRR568131** | `SRR568131.fastq.gz` | [https://www.ncbi.nlm.nih.gov/sra/SRR568131](https://www.ncbi.nlm.nih.gov/sra/SRR568131) |
+| **MYC ChIP**    | Rep 2     | **SRR568132** | `SRR568132.fastq.gz` | [https://www.ncbi.nlm.nih.gov/sra/SRR568132](https://www.ncbi.nlm.nih.gov/sra/SRR568132) |
+| **IgG Control** | Rep 1     | **SRR568133** | `SRR568133.fastq.gz` | [https://www.ncbi.nlm.nih.gov/sra/SRR568133](https://www.ncbi.nlm.nih.gov/sra/SRR568133) |
+| **IgG Control** | Rep 2     | **SRR568134** | `SRR568134.fastq.gz` | [https://www.ncbi.nlm.nih.gov/sra/SRR568134](https://www.ncbi.nlm.nih.gov/sra/SRR568134) |
+
 
 All datasets originate from a single ENCODE ChIP-seq experiment.
 
-🛠 Pipeline
+# Pipeline
 1. QC (FastQC + MultiQC)
 
-Q-scores: 35–40 (excellent)
+- Q-scores: 35–40 (excellent)
 
-GC content: ~41–43%
+- GC content: ~41–43%
 
-Duplicate rate: low (4–18%)
+- Duplicate rate: low (4–18%)
 
-No adapters → no trimming needed
+- No adapters → no trimming needed
 
 2. Alignment (Bowtie2 → hg38)
 
-26–31 million reads per sample
+- 26–31 million reads per sample
 
-High alignment rate
+- High alignment rate
 
-Sorted + indexed BAMs used for peak calling
+- Sorted + indexed BAMs used for peak calling
 
 3. Peak Calling (MACS2)
-macs2 callpeak -t MYC.bam -c IgG.bam -g hs -f BAM -n MYC
-
+   
+   'macs2 callpeak -t MYC.bam -c IgG.bam -g hs -f BAM -n MYC'
 
 Results:
 
