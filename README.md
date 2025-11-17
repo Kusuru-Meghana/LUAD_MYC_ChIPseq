@@ -64,8 +64,10 @@ All datasets originate from a single ENCODE ChIP-seq experiment.
 - Sorted + indexed BAMs used for peak calling
 
 3. Peak Calling (MACS2)
-   
-   'macs2 callpeak -t MYC.bam -c IgG.bam -g hs -f BAM -n MYC'
+
+```bash
+macs2 callpeak -t MYC.bam -c IgG.bam -g hs -f BAM -n MYC
+```
 
 Results:
 
