@@ -1,201 +1,254 @@
 ## LUAD_MYC_ChIPseq
-This repository contains a complete end-to-end ChIP-seq analysis of MYC transcription factor binding in Lung Adenocarcinoma (LUAD).
-It demonstrates a full NGS pipeline from FASTQ → alignment → peak calling → annotation → motif analysis → functional interpretation.
 
-# Repository Structure
-LUAD_MYC_ChIPseq/
-│── fastq/                     # Raw FASTQ files (MYC + IgG)
-│── qc/                        # FASTQC and MultiQC reports
-│── alignment/                 # Bowtie2 alignments (.bam)
-│── macs2_results/             # MACS2 peak calling output
-│── peaks/                     # Annotated peaks, MYC_genes.txt
-│── motif_results/             # HOMER de novo + known motifs
-│── enrichment_results/        # GO/KEGG enrichment outputs
-│── figures/                   # MYC binding visualizations
-│── scripts/                   # All analysis scripts
-│── README.md
+LUAD MYC ChIP-seq: Mapping MYC Binding Sites in Lung Adenocarcinoma (A549)
 
-# 1️. Dataset
+End-to-end ChIP-seq analysis of MYC regulatory networks in lung cancer
 
-ChIP-seq samples (LUAD cell line):
+🚀 Overview
 
-Sample	Type	Purpose
-MYC_rep1	ChIP	MYC binding
-MYC_rep2	ChIP	Replicate
-IgG_rep1	Control	Background
-IgG_rep2	Control	Background
+This project performs a complete ChIP-seq pipeline to identify genome-wide binding sites of the oncogenic transcription factor MYC in A549 lung adenocarcinoma (LUAD) cells.
+Using ENCODE-matched replicates (2 MYC + 2 IgG controls), the analysis recovers:
 
-# 2. Quality Control
+High-confidence MYC binding peaks
 
-Tools: FASTQC, MultiQC
+Direct MYC-regulated oncogenes
 
-fastqc *.fastq -o qc/
-multiqc qc/ -o qc/
+Key LUAD pathways controlled by MYC
 
+Peak annotation, motif enrichment, and pathway biology
 
-All samples passed QC. No trimming required.
+This project demonstrates both bioinformatics workflow skills and cancer genomics interpretation, suitable for bioinformatics roles, computational biology internships, and junior scientist positions.
 
-# 3️. Alignment (Bowtie2)
-bowtie2 -x hg38_index -U sample.fastq -S sample.sam
-samtools sort -o sample.bam sample.sam
-samtools index sample.bam
+🧬 Biological Motivation
 
+MYC is a master regulator of tumor growth. In LUAD, MYC drives:
 
-Alignment rate: 92–95%
+Ribosome biogenesis
 
-# 4️. Peak Calling (MACS2)
-macs2 callpeak \
-  -t MYC.bam \
-  -c IgG.bam \
-  -f BAM -g hs \
-  -n MYC \
-  --outdir macs2_results/
+Protein synthesis
+
+Metabolic rewiring
+
+Cell-cycle progression
+
+Stress and survival signaling
+
+Goal:
+
+Identify where MYC binds the genome in A549 cells, and what biological programs MYC directly regulates.
+
+📁 Data Summary
+Condition	Replicates	Description
+MYC ChIP	2	MYC-bound DNA fragments
+IgG Control	2	Background noise
+
+All datasets originate from a single ENCODE ChIP-seq experiment.
+
+🛠 Pipeline
+1. QC (FastQC + MultiQC)
+
+Q-scores: 35–40 (excellent)
+
+GC content: ~41–43%
+
+Duplicate rate: low (4–18%)
+
+No adapters → no trimming needed
+
+2. Alignment (Bowtie2 → hg38)
+
+26–31 million reads per sample
+
+High alignment rate
+
+Sorted + indexed BAMs used for peak calling
+
+3. Peak Calling (MACS2)
+macs2 callpeak -t MYC.bam -c IgG.bam -g hs -f BAM -n MYC
 
 
 Results:
 
-28,760 MYC peaks (narrowPeak)
+~5,000+ MYC peaks
 
-Fold-enrichment range: 3×–40×
+Enrichment up to 40×
 
-Files in: macs2_results/
+Summits used for motif analysis
 
-# 5️. Peak Annotation
+4. Peak Annotation (ChIPseeker)
 
-Tools: bedtools, refGene
+~50% promoter peaks
 
-bedtools closest \
-  -a MYC_peaks.sorted.narrowPeak \
-  -b genes_hg38.sorted.bed \
-  -D a > MYC_peaks_annotated.bed
+~935 MYC-bound genes
 
+5. Enrichment Analysis (GSEApy + Enrichr)
 
-Outputs:
+GO: Biological Process
 
-MYC_peaks_annotated.bed
+GO: Molecular Function
 
-MYC_genes.txt (5,319 MYC-associated genes)
+GO: Cellular Component
 
-# 6️. Motif Enrichment (HOMER)
-findMotifsGenome.pl \
-  MYC_peaks.sorted.narrowPeak \
-  hg38 \
-  motif_results/ \
-  -size 200
+KEGG Pathways
 
+6. Motif Analysis (HOMER)
 
-Top enriched motifs:
+Top enriched motif: MYC E-box (CACGTG)
 
-MYC/MAX (E-box, CACGTG) — correct canonical motif
+🔍 Example Figures
+Genome-wide MYC Peak Distribution
 
-FOSL1/JUN (AP-1)
+MYC Binding at EGFR Promoter
 
-ETS/ELK factors
+📊 Key Results
+🔥 1. Strong MYC binding at LUAD oncogenes
+Gene	Fold Enrichment	Interpretation
+EGFR	18.2×	Direct promoter binding → growth signaling
+FOSL1 (AP-1)	9×	Oncogenic transcription factor
+TP53	8.6×	Stress & checkpoint regulation
+HES4	5.7×	Notch pathway regulator
+🔥 2. Genome-wide MYC activity
 
-NF-κB/REL family
+Peaks cluster around 4–6× enrichment
 
-Indicates MYC co-binding with AP-1, ETS, and NF-κB in LUAD.
+Long high-confidence tail up to 40×
 
-# 7️. Functional Enrichment (GO/KEGG)
+Classic transcription factor ChIP-seq profile
 
-Tool: GSEAPY (Enrichr)
-Script: scripts/run_enrichment.py
+🔥 3. GO Biological Process — MYC drives biosynthesis
 
-Enriched pathways:
-
-GO Biological Process
-
-Transcription regulation
-
-Chromatin organization
-
-RNA processing
-
-Mitotic cell cycle
-
-KEGG
-
-MAPK signaling
-
-PI3K-Akt signaling
-
-Pathways in cancer
+Top enriched biological processes:
 
 Ribosome biogenesis
 
-Results in:
-enrichment_results/
+Translation
 
-# 8️. Key Visualizations
+rRNA processing
 
-Located in: figures/
+Macromolecule biosynthesis
 
-Genome-wide MYC peak distribution
+Peptide biosynthetic process
 
-MYC binding vs. TSS distance
+→ MYC activates biosynthetic and proliferative programs.
 
-MYC binding around LUAD oncogenes:
+🔥 4. GO Molecular Function
 
-EGFR
+RNA binding
 
-FOSL1
+mRNA 5′-UTR binding
 
-TP53
+rRNA binding
 
-HES4
+snoRNA binding
 
-Example (EGFR):
+Cadherin binding
 
-figures/MYC_EGFR_binding.png
+→ MYC regulates post-transcriptional control & adhesion.
+
+🔥 5. GO Cellular Component
+
+Nucleolus
+
+Ribosomal subunits
+
+Small-subunit processome
+
+Focal adhesions
+
+→ MYC activates nucleolar, translational, and migration modules.
+
+🔥 6. KEGG Pathway Enrichment
+
+Most enriched pathways:
+
+Ribosome (84 genes)
+
+Ribosome biogenesis
+
+RNA transport
+
+Purine metabolism
+
+PI3K/AKT & insulin signaling
+
+Ferroptosis
+
+Spliceosome
+
+→ MYC controls metabolic, proliferative, and stress-survival pathways.
+
+🧠 Final Biological Interpretation
+
+In A549 LUAD cells, MYC directly binds and activates a multi-layer regulatory program that drives tumor progression.
+MYC controls:
+
+Growth signaling (EGFR, STAT3, FOSL1)
+
+Cell-cycle progression (CDK4, CCND1, WEE1)
+
+Metabolic rewiring (HK2, LDHA, FASN)
+
+Ribosome & translation machinery (hundreds of RPL/RPS/EIF genes)
+
+RNA processing & splicing
+
+Ferroptosis regulators
+
+Stress and DNA-repair programs
+
+This represents a canonical, MYC-driven LUAD regulatory state.
+
+📦 Repository Structure
+LUAD_MYC_ChIPseq/
+│
+├── peaks/
+├── results/
+│   ├── annotated_peaks/
+│   ├── enrichment_results/
+│   ├── figures/
+├── scripts/
+└── README.md
 
 
-Shows strong MYC promoter binding.
+(Large FASTQ/BAM files not included.)
 
-# 9️. Reproducible Workflow
+🧠 Skills Demonstrated
+Bioinformatics
 
-To reproduce entire pipeline:
-
-bash scripts/01_qc.sh
-bash scripts/02_alignment.sh
-bash scripts/03_peak_calling.sh
-bash scripts/04_annotation.sh
-python scripts/run_enrichment.py
-python scripts/myc_visualizations.py
-
-# 10. Technical Skills Demonstrated
-
-NGS quality assessment
+NGS QC & preprocessing
 
 Bowtie2 alignment
 
-SAM/BAM processing
+MACS2 peak calling
 
-Peak calling with MACS2
+ChIPseeker peak annotation
 
-Peak annotation
+HOMER motif discovery
 
-Motif discovery (HOMER)
+GO/KEGG enrichment analysis
 
-Functional enrichment (GO/KEGG)
+Data visualization
 
-Python visualization
+Technical
 
 Bash scripting
 
-Workflow organization
+Python (pandas, matplotlib, gseapy)
 
-Cancer genomics interpretation
+Reproducible analysis
 
-# Summary
+Git/GitHub workflow
 
-This project provides a complete analysis of MYC binding in LUAD, identifying:
+Biology
 
-28,760 MYC-bound regions
+Cancer genomics
 
-5,319 MYC-associated genes
+MYC transcription factor biology
 
-Strong MYC peaks at EGFR, FOSL1, TP53
+Lung adenocarcinoma pathways
 
-Enrichment of MYC/MAX and AP-1 motifs
+Regulatory network interpretation
 
-Activation of LUAD-relevant pathways (MAPK, PI3K-AKT, chromatin regulation)
+📜 License
+
+Released under the MIT License.
