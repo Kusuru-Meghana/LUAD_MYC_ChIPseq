@@ -1,6 +1,6 @@
-## LUAD MYC ChIP-seq - Mapping MYC Binding Sites in Lung Adenocarcinoma (A549)
+# LUAD MYC ChIP-seq - Mapping MYC Binding Sites in Lung Adenocarcinoma (A549)
 
-# Overview
+## Overview
 
 This project performs a complete ChIP-seq pipeline to identify genome-wide binding sites of the oncogenic transcription factor MYC in A549 lung adenocarcinoma (LUAD) cells.
 Using ENCODE-matched replicates (2 MYC + 2 IgG controls), the analysis recovers:
@@ -14,7 +14,7 @@ Using ENCODE-matched replicates (2 MYC + 2 IgG controls), the analysis recovers:
 - Peak annotation, motif enrichment, and pathway biology
 
 
-# Biological Motivation
+## Biological Motivation
 
 MYC is a master regulator of tumor growth. In LUAD, MYC drives:
 
@@ -28,11 +28,11 @@ MYC is a master regulator of tumor growth. In LUAD, MYC drives:
 
 - Stress and survival signaling
 
-# Goal
+## Goal
 
 Identify where MYC binds the genome in A549 cells, and what biological programs MYC directly regulates.
 
-# Data Summary
+## Data Summary
 
 | Condition       | Replicate | SRA ID        | File Name            | Source Link                                                                              |
 | --------------- | --------- | ------------- | -------------------- | ---------------------------------------------------------------------------------------- |
@@ -44,7 +44,7 @@ Identify where MYC binds the genome in A549 cells, and what biological programs 
 
 All datasets originate from a single ENCODE ChIP-seq experiment.
 
-# Pipeline
+## Pipeline
 1. QC (FastQC + MultiQC)
 
 - Q-scores: 35–40 (excellent)
@@ -102,7 +102,7 @@ Example Figures
 
 - MYC Binding at EGFR Promoter
 
-# Key Results
+## Key Results
 1. Strong MYC binding at LUAD oncogenes
    
 | Gene             | Fold Enrichment | Interpretation                             |
@@ -182,7 +182,7 @@ Example Figures
 
 → MYC controls metabolic, proliferative, and stress-survival pathways.
 
-# Final Biological Interpretation
+## Final Biological Interpretation
 
 In A549 LUAD cells, MYC directly binds and activates a multi-layer regulatory program that drives tumor progression.
 MYC controls:
@@ -203,8 +203,10 @@ MYC controls:
 
 This represents a canonical, MYC-driven LUAD regulatory state.
 
-# Repository Structure
+## Repository Structure
 
+
+```
 LUAD_MYC_ChIPseq/
 │
 ├── peaks/
@@ -214,11 +216,14 @@ LUAD_MYC_ChIPseq/
 │   ├── figures/
 ├── scripts/
 └── README.md
+```
+
+*(Large FASTQ/BAM files not included.)*
 
 
 (Large FASTQ/BAM files not included.)
 
 
-# License
+## License
 
 Released under the MIT License.
