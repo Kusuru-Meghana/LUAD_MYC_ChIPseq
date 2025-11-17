@@ -71,136 +71,138 @@ macs2 callpeak -t MYC.bam -c IgG.bam -g hs -f BAM -n MYC
 
 Results:
 
-~5,000+ MYC peaks
+- ~5,000+ MYC peaks
 
-Enrichment up to 40×
+- Enrichment up to 40×
 
-Summits used for motif analysis
+- Summits used for motif analysis
 
 4. Peak Annotation (ChIPseeker)
 
-~50% promoter peaks
+- ~50% promoter peaks
 
-~935 MYC-bound genes
+- ~935 MYC-bound genes
 
 5. Enrichment Analysis (GSEApy + Enrichr)
 
-GO: Biological Process
+- GO: Biological Process
 
-GO: Molecular Function
+- GO: Molecular Function
 
-GO: Cellular Component
+- GO: Cellular Component
 
-KEGG Pathways
+- KEGG Pathways
 
 6. Motif Analysis (HOMER)
 
 Top enriched motif: MYC E-box (CACGTG)
 
-🔍 Example Figures
-Genome-wide MYC Peak Distribution
+Example Figures
+- Genome-wide MYC Peak Distribution
 
-MYC Binding at EGFR Promoter
+- MYC Binding at EGFR Promoter
 
-📊 Key Results
-🔥 1. Strong MYC binding at LUAD oncogenes
-Gene	Fold Enrichment	Interpretation
-EGFR	18.2×	Direct promoter binding → growth signaling
-FOSL1 (AP-1)	9×	Oncogenic transcription factor
-TP53	8.6×	Stress & checkpoint regulation
-HES4	5.7×	Notch pathway regulator
-🔥 2. Genome-wide MYC activity
+# Key Results
+1. Strong MYC binding at LUAD oncogenes
+| Gene             | Fold Enrichment | Interpretation                             |
+| ---------------- | --------------- | ------------------------------------------ |
+| **EGFR**         | 18.2×           | Direct promoter binding → growth signaling |
+| **FOSL1 (AP-1)** | 9×              | Oncogenic transcription factor             |
+| **TP53**         | 8.6×            | Stress & checkpoint regulation             |
+| **HES4**         | 5.7×            | Notch pathway regulator                    |
 
-Peaks cluster around 4–6× enrichment
+2. Genome-wide MYC activity
 
-Long high-confidence tail up to 40×
+- Peaks cluster around 4–6× enrichment
 
-Classic transcription factor ChIP-seq profile
+- Long high-confidence tail up to 40×
 
-🔥 3. GO Biological Process — MYC drives biosynthesis
+- Classic transcription factor ChIP-seq profile
 
-Top enriched biological processes:
+3. GO Biological Process — MYC drives biosynthesis
 
-Ribosome biogenesis
+- Top enriched biological processes:
 
-Translation
+- Ribosome biogenesis
 
-rRNA processing
+- Translation
 
-Macromolecule biosynthesis
+- rRNA processing
 
-Peptide biosynthetic process
+- Macromolecule biosynthesis
+
+- Peptide biosynthetic process
 
 → MYC activates biosynthetic and proliferative programs.
 
-🔥 4. GO Molecular Function
+4. GO Molecular Function
 
-RNA binding
+- RNA binding
 
-mRNA 5′-UTR binding
+- mRNA 5′-UTR binding
 
-rRNA binding
+- rRNA binding
 
-snoRNA binding
+- snoRNA binding
 
-Cadherin binding
+- Cadherin binding
 
 → MYC regulates post-transcriptional control & adhesion.
 
-🔥 5. GO Cellular Component
+5. GO Cellular Component
 
-Nucleolus
+- Nucleolus
 
-Ribosomal subunits
+- Ribosomal subunits
 
-Small-subunit processome
+- Small-subunit processome
 
-Focal adhesions
+- Focal adhesions
 
 → MYC activates nucleolar, translational, and migration modules.
 
-🔥 6. KEGG Pathway Enrichment
+6. KEGG Pathway Enrichment
 
-Most enriched pathways:
+- Most enriched pathways:
 
-Ribosome (84 genes)
+- Ribosome (84 genes)
 
-Ribosome biogenesis
+- Ribosome biogenesis
 
-RNA transport
+- RNA transport
 
-Purine metabolism
+- Purine metabolism
 
-PI3K/AKT & insulin signaling
+- PI3K/AKT & insulin signaling
 
-Ferroptosis
+- Ferroptosis
 
-Spliceosome
+- Spliceosome
 
 → MYC controls metabolic, proliferative, and stress-survival pathways.
 
-🧠 Final Biological Interpretation
+# Final Biological Interpretation
 
 In A549 LUAD cells, MYC directly binds and activates a multi-layer regulatory program that drives tumor progression.
 MYC controls:
 
-Growth signaling (EGFR, STAT3, FOSL1)
+- Growth signaling (EGFR, STAT3, FOSL1)
 
-Cell-cycle progression (CDK4, CCND1, WEE1)
+- Cell-cycle progression (CDK4, CCND1, WEE1)
 
-Metabolic rewiring (HK2, LDHA, FASN)
+- Metabolic rewiring (HK2, LDHA, FASN)
 
-Ribosome & translation machinery (hundreds of RPL/RPS/EIF genes)
+- Ribosome & translation machinery (hundreds of RPL/RPS/EIF genes)
 
-RNA processing & splicing
+- RNA processing & splicing
 
-Ferroptosis regulators
+- Ferroptosis regulators
 
-Stress and DNA-repair programs
+- Stress and DNA-repair programs
 
 This represents a canonical, MYC-driven LUAD regulatory state.
 
-📦 Repository Structure
+# Repository Structure
 LUAD_MYC_ChIPseq/
 │
 ├── peaks/
@@ -214,43 +216,7 @@ LUAD_MYC_ChIPseq/
 
 (Large FASTQ/BAM files not included.)
 
-🧠 Skills Demonstrated
-Bioinformatics
 
-NGS QC & preprocessing
-
-Bowtie2 alignment
-
-MACS2 peak calling
-
-ChIPseeker peak annotation
-
-HOMER motif discovery
-
-GO/KEGG enrichment analysis
-
-Data visualization
-
-Technical
-
-Bash scripting
-
-Python (pandas, matplotlib, gseapy)
-
-Reproducible analysis
-
-Git/GitHub workflow
-
-Biology
-
-Cancer genomics
-
-MYC transcription factor biology
-
-Lung adenocarcinoma pathways
-
-Regulatory network interpretation
-
-📜 License
+# License
 
 Released under the MIT License.
