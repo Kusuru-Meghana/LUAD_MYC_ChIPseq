@@ -104,6 +104,7 @@ Example Figures
 
 # Key Results
 1. Strong MYC binding at LUAD oncogenes
+   
 | Gene             | Fold Enrichment | Interpretation                             |
 | ---------------- | --------------- | ------------------------------------------ |
 | **EGFR**         | 18.2×           | Direct promoter binding → growth signaling |
