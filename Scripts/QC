@@ -1,1 +1,19 @@
+#!/bin/bash
+
+# --------------------------------------------------------
+# 01_qc.sh
+# Quality Control for ChIP-seq FASTQ files
+# Tools: FastQC, MultiQC
+# --------------------------------------------------------
+
+# Create output directory
+mkdir -p 
+
+echo "Running FastQC on all FASTQ files..."
+fastqc ../fastq/*.fastq -o 
+
+echo "Aggregating QC reports with MultiQC..."
+multiqc ../results/qc -o 
+
+
 
