@@ -209,13 +209,52 @@ This represents a canonical, MYC-driven LUAD regulatory state.
 ```
 LUAD_MYC_ChIPseq/
 │
-├── peaks/
+├── LICENSE
+├── README.md
+│
+├── Scripts/
+│   ├── .gitkeep
+│   ├── QC/
+│   │   └── 01_qc.sh
+│   ├── alignment/
+│   │   └── bowtie2_alignment.sh
+│   ├── annotation/
+│   │   └── annotate_peaks.sh
+│   ├── myc_visualizations.py
+│   ├── peak_calling/
+│   │   └── macs2_callpeaks.sh
+│   ├── run_chipseq_pipeline.sh
+│   └── run_enrichment.py
+│
 ├── results/
+│   ├── MYC_genes.txt/
+│   │   ├── .gitkeep
+│   │   └── MYC_genes.txt
+│   │
 │   ├── annotated_peaks/
+│   │   ├── .gitkeep
+│   │   └── MYC_peaks_annotated.bed
+│   │
 │   ├── enrichment_results/
-│   ├── figures/
-├── scripts/
-└── README.md
+│   │   ├── .gitkeep
+│   │   ├── GO_Biological_Process_2023.Human.enrichr.reports.pdf
+│   │   ├── GO_Cellular_Component_2023.Human.enrichr.reports.pdf
+│   │   ├── GO_Molecular_Function_2023.Human.enrichr.reports.pdf
+│   │   ├── KEGG_2021_Human.Human.enrichr.reports.pdf
+│   │   ├── gseapy.enrichr.127968526904224.log
+│   │   ├── gseapy.enrichr.129469226776096.log
+│   │   └── gseapy.enrichr.139063081760288.log
+│   │
+│   └── figures/
+│       ├── .gitkeep
+│       ├── MYC_EGFR_binding.png
+│       ├── MYC_FOSL1_binding.png
+│       ├── MYC_HES4_binding.png
+│       ├── MYC_TP53_binding.png
+│       └── MYC_genome_wide_peaks.png
+│
+└── (root directory)
+
 ```
 
 *(Large FASTQ/BAM files not included.)*
