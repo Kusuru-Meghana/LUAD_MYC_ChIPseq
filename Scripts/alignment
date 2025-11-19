@@ -1,0 +1,44 @@
+#!/bin/bash
+set -e
+
+# ---------------------------------------------------------
+# 02_alignment.sh
+# Bowtie2 alignment for LUAD MYC ChIP-seq (A549)
+# Uses EXACT commands from the real workflow
+# ---------------------------------------------------------
+
+# Create output folder
+mkdir -p alignment
+
+echo "-----------------------------------------"
+echo " Aligning MYC_rep1 "
+echo "-----------------------------------------"
+bowtie2 -x hg38 -U MYC_rep1.fastq -S alignment/MYC_rep1.sam
+samtools view -S -b alignment/MYC_rep1.sam > alignment/MYC_rep1.bam
+samtools sort alignment/MYC_rep1.bam -o alignment/MYC_rep1_sorted.bam
+samtools index alignment/MYC_rep1_sorted.bam
+
+echo "-----------------------------------------"
+echo " Aligning MYC_rep2 "
+echo "-----------------------------------------"
+bowtie2 -x hg38 -U MYC_rep2.fastq -S alignment/MYC_rep2.sam
+samtools view -S -b alignment/MYC_rep2.sam > alignment/MYC_rep2.bam
+samtools sort alignment/MYC_rep2.bam -o alignment/MYC_rep2_sorted.bam
+samtools index alignment/MYC_rep2_sorted.bam
+
+echo "-----------------------------------------"
+echo " Aligning IgG_rep1 "
+echo "-----------------------------------------"
+bowtie2 -x hg38 -U IgG_rep1.fastq -S alignment/IgG_rep1.sam
+samtools view -S -b alignment/IgG_rep1.sam > alignment/IgG_rep1.bam
+samtools sort alignment/IgG_rep1.bam -o alignment/IgG_rep1_sorted.bam
+samtools index alignment/IgG_rep1_sorted.bam
+
+echo "-----------------------------------------"
+echo " Aligning IgG_rep2 "
+echo "-----------------------------------------"
+bowtie2 -x hg38 -U IgG_rep2.fastq -S alignment/IgG_rep2.sam
+samtools view -S -b alignment/IgG_rep2.sam > alignment/IgG_rep2.bam
+samtools sort alignment/IgG_rep2.bam -o alignment/IgG_rep2_sorted.bam
+samtools index alignment/IgG_rep2_sorted.bam
+
