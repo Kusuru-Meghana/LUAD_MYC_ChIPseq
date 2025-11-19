@@ -1,0 +1,25 @@
+#!/bin/bash
+set -e
+
+# ---------------------------------------------------------
+# 03_peak_calling.sh
+# MACS2 Peak Calling (MYC ChIP vs IgG Control) 
+# Based on YOUR actual commands from the LUAD pipeline
+# ---------------------------------------------------------
+
+mkdir -p macs2_results
+
+echo "Running MACS2 peak calling using MYC_rep1 + MYC_rep2 vs IgG_rep1 + IgG_rep2..."
+
+macs2 callpeak \
+   -t alignment/MYC_rep1_sorted.bam alignment/MYC_rep2_sorted.bam \
+   -c alignment/IgG_rep1_sorted.bam alignment/IgG_rep2_sorted.bam \
+   -f BAM \
+   -g hs \
+   --keep-dup all \
+   -n MYC_combined \
+   --outdir macs2_results
+
+echo "Peak calling complete."
+echo "Output: macs2_results/MYC_combined_peaks.narrowPeak"
+echo "Summits: macs2_results/MYC_combined_summits.bed"
