@@ -91,7 +91,8 @@ This matches ENCODE guidelines for reproducible TF ChIP-Seq.
 All datasets originate from a single ENCODE ChIP-seq experiment.
 
 ## ChIP-Seq Workflow
-1. Quality Control
+
+## 1. Quality Control
 
 Tools used:
 
@@ -113,7 +114,7 @@ QC Results:
 
 These indicate high-quality ENCODE-grade datasets.
 
-2. Alignment (Bowtie2 → hg38)
+## 2. Alignment (Bowtie2 → hg38)
 
 Steps:
 
@@ -136,7 +137,7 @@ Bowtie2 was selected because it is optimised for:
 - Large genomes (human hg38)
 
 
-3. Peak Calling (MACS2)
+## 3. Peak Calling (MACS2)
 
 Peak calling was performed with
 
@@ -157,7 +158,7 @@ MACS2 outputs produced:
 
 MACS2 effectively finds locations where MYC signal exceeds IgG background.
 
-4. Annotation of Peaks
+## 4. Annotation of Peaks
 
 Tools used:
 
@@ -175,7 +176,7 @@ Outputs:
 
 - Motif enrichment (E-box CACGTG expected)
 
-5. Functional Enrichment
+## 5. Functional Enrichment
 
 Performed using GSEApy:
 
@@ -202,7 +203,7 @@ All results saved in:
 
 
 
-6. Visualization
+## 6. Visualization
 
 Figures include:
 
@@ -215,230 +216,41 @@ Figures include:
 - Enrichment dotplots
 
 Located in:
-results/figures/
+[results/figures/](results/figures
 
 
+## Key Findings (summary)
 
+- High-confidence MYC peaks were identified across the genome.
 
+- MYC binds promoters of major cancer-related genes (EGFR, FOSL1, etc.).
 
+- Motif analysis reveals strong enrichment of canonical E-box motifs.
 
+- Functional enrichment highlights MYC’s role in ribosome biogenesis, cell proliferation, and metabolic regulation.
 
-1. QC (FastQC + MultiQC)
+- Results align with known MYC oncogenic behaviour in LUAD.
 
-- Q-scores: 35–40 (excellent)
-
-- GC content: ~41–43%
-
-- Duplicate rate: low (4–18%)
-
-- No adapters → no trimming needed
-
-2. Alignment (Bowtie2 → hg38)
-
-- 26–31 million reads per sample
-
-- High alignment rate
-
-- Sorted + indexed BAMs used for peak calling
-
-3. Peak Calling (MACS2)
+## How to Run This Pipeline
+Clone the repo
 
 ```bash
-macs2 callpeak -t MYC.bam -c IgG.bam -g hs -f BAM -n MYC
+git clone https://github.com/Kusuru-Meghana/LUAD_MYC_ChIPseq.git
+cd LUAD_MYC_ChIPseq
 ```
 
-Results:
-
-- ~5,000+ MYC peaks
-
-- Enrichment up to 40×
-
-- Summits used for motif analysis
-
-4. Peak Annotation (ChIPseeker)
-
-- ~50% promoter peaks
-
-- ~935 MYC-bound genes
-
-5. Enrichment Analysis (GSEApy + Enrichr)
-
-- GO: Biological Process
-
-- GO: Molecular Function
-
-- GO: Cellular Component
-
-- KEGG Pathways
-
-6. Motif Analysis (HOMER)
-
-Top enriched motif: MYC E-box (CACGTG)
-
-Example Figures
-- Genome-wide MYC Peak Distribution
-
-- MYC Binding at EGFR Promoter
-
-## Key Results
-1. Strong MYC binding at LUAD oncogenes
-   
-| Gene             | Fold Enrichment | Interpretation                             |
-| ---------------- | --------------- | ------------------------------------------ |
-| **EGFR**         | 18.2×           | Direct promoter binding → growth signaling |
-| **FOSL1 (AP-1)** | 9×              | Oncogenic transcription factor             |
-| **TP53**         | 8.6×            | Stress & checkpoint regulation             |
-| **HES4**         | 5.7×            | Notch pathway regulator                    |
-
-2. Genome-wide MYC activity
-
-- Peaks cluster around 4–6× enrichment
-
-- Long high-confidence tail up to 40×
-
-- Classic transcription factor ChIP-seq profile
-
-3. GO Biological Process — MYC drives biosynthesis
-
-- Top enriched biological processes:
-
-- Ribosome biogenesis
-
-- Translation
-
-- rRNA processing
-
-- Macromolecule biosynthesis
-
-- Peptide biosynthetic process
-
-→ MYC activates biosynthetic and proliferative programs.
-
-4. GO Molecular Function
-
-- RNA binding
-
-- mRNA 5′-UTR binding
-
-- rRNA binding
-
-- snoRNA binding
-
-- Cadherin binding
-
-→ MYC regulates post-transcriptional control & adhesion.
-
-5. GO Cellular Component
-
-- Nucleolus
-
-- Ribosomal subunits
-
-- Small-subunit processome
-
-- Focal adhesions
-
-→ MYC activates nucleolar, translational, and migration modules.
-
-6. KEGG Pathway Enrichment
-
-- Most enriched pathways:
-
-- Ribosome (84 genes)
-
-- Ribosome biogenesis
-
-- RNA transport
-
-- Purine metabolism
-
-- PI3K/AKT & insulin signaling
-
-- Ferroptosis
-
-- Spliceosome
-
-→ MYC controls metabolic, proliferative, and stress-survival pathways.
-
-## Final Biological Interpretation
-
-In A549 LUAD cells, MYC directly binds and activates a multi-layer regulatory program that drives tumor progression.
-MYC controls:
-
-- Growth signaling (EGFR, STAT3, FOSL1)
-
-- Cell-cycle progression (CDK4, CCND1, WEE1)
-
-- Metabolic rewiring (HK2, LDHA, FASN)
-
-- Ribosome & translation machinery (hundreds of RPL/RPS/EIF genes)
-
-- RNA processing & splicing
-
-- Ferroptosis regulators
-
-- Stress and DNA-repair programs
-
-This represents a canonical, MYC-driven LUAD regulatory state.
-
-## Repository Structure
-
-
-```
-LUAD_MYC_ChIPseq/
-│
-├── LICENSE
-├── README.md
-│
-├── Scripts/
-│   ├── .gitkeep
-│   ├── QC/
-│   │   └── 01_qc.sh
-│   ├── alignment/
-│   │   └── bowtie2_alignment.sh
-│   ├── annotation/
-│   │   └── annotate_peaks.sh
-│   ├── myc_visualizations.py
-│   ├── peak_calling/
-│   │   └── macs2_callpeaks.sh
-│   ├── run_chipseq_pipeline.sh
-│   └── run_enrichment.py
-│
-├── results/
-│   ├── MYC_genes.txt/
-│   │   ├── .gitkeep
-│   │   └── MYC_genes.txt
-│   │
-│   ├── annotated_peaks/
-│   │   ├── .gitkeep
-│   │   └── MYC_peaks_annotated.bed
-│   │
-│   ├── enrichment_results/
-│   │   ├── .gitkeep
-│   │   ├── GO_Biological_Process_2023.Human.enrichr.reports.pdf
-│   │   ├── GO_Cellular_Component_2023.Human.enrichr.reports.pdf
-│   │   ├── GO_Molecular_Function_2023.Human.enrichr.reports.pdf
-│   │   ├── KEGG_2021_Human.Human.enrichr.reports.pdf
-│   │   ├── gseapy.enrichr.127968526904224.log
-│   │   ├── gseapy.enrichr.129469226776096.log
-│   │   └── gseapy.enrichr.139063081760288.log
-│   │
-│   └── figures/
-│       ├── .gitkeep
-│       ├── MYC_EGFR_binding.png
-│       ├── MYC_FOSL1_binding.png
-│       ├── MYC_HES4_binding.png
-│       ├── MYC_TP53_binding.png
-│       └── MYC_genome_wide_peaks.png
-│
-└── (root directory)
-
+Run the entire pipeline
+```bash
+Scripts/run_chipseq_pipeline.sh
 ```
 
-*(Large FASTQ/BAM files not included.)*
+Run enrichment analysis
+```
+python3 Scripts/run_enrichment.py
+```
 
 
-## Tools Used
+## Software Requirements
 
 - FastQC
 
@@ -446,7 +258,7 @@ LUAD_MYC_ChIPseq/
 
 - Bowtie2
 
-- samtools
+- Samtools
 
 - MACS2
 
@@ -454,9 +266,14 @@ LUAD_MYC_ChIPseq/
 
 - HOMER
 
-- GSEApy
+- GSEApy (Python)
+
+- Environment files (conda/Docker) can be added on request.
+
+# Author
+
+Meghana Kusuru
+LUAD MYC ChIP-Seq Analysis
+2025
 
 
-## License
-
-Released under the MIT License.
