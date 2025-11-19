@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 # ============================================================
-# EXACT COMMANDS MEGHANA RAN FOR LUAD MYC ChIP-seq PROJECT
+# Pipeline: LUAD MYC ChIP-seq (Original Commands)
+# Author: Meghana Kusuru
+# Purpose: EXACT commands executed during the MYC ChIP-seq project
 # ============================================================
+
 
 # ------------------------------------------------------------
 # 0. Set working directory
