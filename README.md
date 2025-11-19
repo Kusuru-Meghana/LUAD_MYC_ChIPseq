@@ -1,38 +1,84 @@
-# LUAD MYC ChIP-seq - Mapping MYC Binding Sites in Lung Adenocarcinoma (A549)
+# LUAD MYC ChIP-seq - Genome-wide mapping of MYC binding sites in A549 lung adenocarcinoma cells using ChIP-Seq
 
 ## Overview
 
-This project performs a complete ChIP-seq pipeline to identify genome-wide binding sites of the oncogenic transcription factor MYC in A549 lung adenocarcinoma (LUAD) cells.
-Using ENCODE-matched replicates (2 MYC + 2 IgG controls), the analysis recovers:
+This repository contains a complete, reproducible ChIP-Seq workflow to identify genome-wide MYC binding sites in the A549 lung adenocarcinoma cell line.
+The project includes:
 
-- High-confidence MYC binding peaks
+- Data acquisition from SRA
 
-- Direct MYC-regulated oncogenes
+- Quality control (FastQC + MultiQC)
 
-- Key LUAD pathways controlled by MYC
+- Alignment to hg38 using Bowtie2
 
-- Peak annotation, motif enrichment, and pathway biology
+- Peak calling with MACS2
 
+- Annotation of MYC peaks
+
+- GO/KEGG functional enrichment
+
+- Visualization of MYC binding profiles
+
+- Figures, logs, and processed results
+
+This project serves as a full end-to-end example of transcription factor ChIP-Seq analysis, following ENCODE standards.
 
 ## Biological Motivation
 
-MYC is a master regulator of tumor growth. In LUAD, MYC drives:
+### What is MYC?
+
+MYC (c-Myc) is a master regulatory transcription factor controlling:
 
 - Ribosome biogenesis
 
-- Protein synthesis
-
-- Metabolic rewiring
+- Metabolism
 
 - Cell-cycle progression
 
-- Stress and survival signaling
+- Nucleotide synthesis
 
-## Goal
+In cancer (including LUAD, lung adenocarcinoma):
 
-Identify where MYC binds the genome in A549 cells, and what biological programs MYC directly regulates.
+- MYC becomes amplified or overactive
+- It drives continuous proliferation
 
-## Data Summary
+- Rewires metabolism
+
+- Blocks differentiation
+
+- Cooperates with KRAS and other oncogenic drivers
+
+Understanding where MYC binds DNA in cancer cells reveals:
+
+- The gene networks it controls
+
+- Oncogenic programs it activates
+
+- Potential drug targets
+
+## Why ChIP-Seq for MYC?
+hIP-Seq identifies genomic regions bound by transcription factors.
+For MYC in A549 cells, it answers - "Which genes does MYC directly regulate in lung cancer?”
+
+ChIP-Seq provides:
+
+- Promoter/enhancer binding sites
+
+- Peak summits
+
+- Motif enrichment
+
+- Pathway activation
+
+- Regulatory circuits
+
+- Cancer-specific MYC targets
+
+
+## Biological Samples
+
+Four SRA datasets were used (2 MYC ChIP, 2 IgG controls).
+This matches ENCODE guidelines for reproducible TF ChIP-Seq.
 
 | Condition       | Replicate | SRA ID        | File Name            | Source Link                                                                              |
 | --------------- | --------- | ------------- | -------------------- | ---------------------------------------------------------------------------------------- |
@@ -44,7 +90,139 @@ Identify where MYC binds the genome in A549 cells, and what biological programs 
 
 All datasets originate from a single ENCODE ChIP-seq experiment.
 
-## Pipeline
+## ChIP-Seq Workflow
+1. Quality Control
+
+Tools used:
+
+- FastQC
+
+- MultiQC
+
+QC Results:
+
+- Very low duplication rates (4–18%)
+
+- Perfect base quality (Q35–40)
+
+- Correct GC distribution (40–43%)
+
+- No adapter contamination
+
+- No N-content issues
+
+These indicate high-quality ENCODE-grade datasets.
+
+2. Alignment (Bowtie2 → hg38)
+
+Steps:
+
+- Download hg38 reference genome
+
+- Build Bowtie2 index
+
+- Align MYC and IgG reads
+
+- Convert SAM → BAM
+
+- Sort and index BAM
+
+Bowtie2 was selected because it is optimised for:
+
+- Short reads (36 bp)
+
+- TF ChIP-Seq
+
+- Large genomes (human hg38)
+
+
+3. Peak Calling (MACS2)
+
+Peak calling was performed with
+
+```bash
+macs2 callpeak -t MYC_rep1.bam MYC_rep2.bam \
+               -c IgG_rep1.bam IgG_rep2.bam \
+               -f BAM -g hs --outdir peak_calling/
+```
+MACS2 outputs produced:
+
+- narrowPeak files (primary peaks)
+
+- summits.bed (motif sites)
+
+- .xls statistics
+
+- bigWig / bedGraph files (optional)
+
+MACS2 effectively finds locations where MYC signal exceeds IgG background.
+
+4. Annotation of Peaks
+
+Tools used:
+
+- ChIPseeker
+
+- HOMER (motifs)
+
+Outputs:
+
+- Promoter/enhancer assignments
+
+- Distance to TSS
+
+- Gene names for MYC-bound regions
+
+- Motif enrichment (E-box CACGTG expected)
+
+5. Functional Enrichment
+
+Performed using GSEApy:
+
+- GO Biological Process
+
+- GO Molecular Function
+
+- GO Cellular Component
+
+- KEGG pathways
+
+Enrichment for MYC targets included:
+
+- Ribosome biogenesis
+
+- Cell-cycle regulation
+
+- RNA metabolism
+
+- Oncogenic signalling pathways
+
+All results saved in:
+[Enrichment Results Folder](results/enrichment_results/)
+
+
+
+6. Visualization
+
+Figures include:
+
+- Genome-wide MYC peak distribution
+
+- Binding tracks (EGFR, FOSL1, HES4, TP53, etc.)
+
+- Peak annotation plots
+
+- Enrichment dotplots
+
+Located in:
+results/figures/
+
+
+
+
+
+
+
 1. QC (FastQC + MultiQC)
 
 - Q-scores: 35–40 (excellent)
