@@ -221,6 +221,25 @@ LUAD_MYC_ChIPseq/
 *(Large FASTQ/BAM files not included.)*
 
 
+## Tools Used
+
+- FastQC
+
+- MultiQC
+
+- Bowtie2
+
+- samtools
+
+- MACS2
+
+- ChIPseeker (R)
+
+- HOMER
+
+- GSEApy
+
+
 ## License
 
 Released under the MIT License.
