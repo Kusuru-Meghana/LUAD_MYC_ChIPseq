@@ -206,17 +206,24 @@ All results saved in:
 ## 6. Visualization
 
 Figures include:
+### **Genome-wide MYC binding strength**
+![Genome-wide MYC peaks](MYC_genome_wide_peaks.png)
 
-- Genome-wide MYC peak distribution
+### **MYC binding around EGFR TSS**
+![EGFR binding](MYC_EGFR_binding.png)
 
-- Binding tracks (EGFR, FOSL1, HES4, TP53, etc.)
+### **MYC binding around FOSL1 TSS**
+![FOSL1 binding](MYC_FOSL1_binding.png)
 
-- Peak annotation plots
+### **MYC binding around TP53 TSS**
+![TP53 binding](MYC_TP53_binding.png)
 
-- Enrichment dotplots
+### **MYC binding upstream of HES4**
+![HES4 binding](MYC_HES4_binding.png)
+
 
 Located in:
-[results/figures/](results/figures
+[results/figures/](results/figures)
 
 
 ## Key Findings (summary)
