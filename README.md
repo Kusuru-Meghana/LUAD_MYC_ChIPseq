@@ -66,28 +66,31 @@ ChIP-Seq provides:
 
 ## Project Structure
 
+```
 LUAD_MYC_ChIPseq/
 │
-├── raw_fastq/                # Raw FASTQ files (not included due to size)
-├── qc/                       # FastQC and MultiQC reports
-├── aligned_bam/              # Sorted BAM and index files (not included)
-├── peaks/                    # MACS2 peak outputs (.narrowPeak, .xls, summits)
+├── raw_fastq/                     # Raw FASTQ files (not included due to size)
+├── qc/                            # FastQC and MultiQC reports
+├── aligned_bam/                   # Sorted BAM + index files (not included)
+├── peaks/                         # MACS2 peak outputs (.narrowPeak, .xls, summits)
 │
 ├── Annotation/
 │   ├── MYC_A549_peak_annotations.csv
-│   ├── MYC_A549_peak_annotation_plots.pdf
+│   └── MYC_A549_peak_annotation_plots.pdf
 │
 ├── Functional_enrichment/
 │   ├── GO_results.csv
 │   ├── KEGG_results.csv
-│   ├── Hallmark_results.csv
+│   └── Hallmark_results.csv
 │
 ├── scripts/
-│   ├── chipseq_pipeline.sh         # Processing workflow
-│   ├── enrichment_analysis.R       # GO/KEGG/Hallmark enrichment
+│   ├── chipseq_pipeline.sh        # Complete ChIP-seq workflow
+│   └── enrichment_analysis.R      # GO/KEGG/Hallmark enrichment
 │
 ├── MYC_ChIPseq_Friendly_Summary.pdf
 └── README.md
+```
+
 
 
 ## Biological Samples
