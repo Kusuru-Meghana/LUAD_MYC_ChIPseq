@@ -247,5 +247,7 @@ Layer 3: ATAC-seq Integration
 ## Author
 
 Meghana Kusuru
+
 Bioinformatics & Computational Biology
+
 University of Delaware
