@@ -110,195 +110,142 @@ All datasets originate from a single ENCODE ChIP-seq experiment.
 
 ## ChIP-Seq Workflow
 
-## 1. Quality Control
+1. Quality Control
 
-Tools used:
+- Performed using FastQC and MultiQC.
 
-- FastQC
+- All samples demonstrated strong base quality, uniform GC content, and low adapter contamination.
 
-- MultiQC
+2. Alignment
 
-QC Results:
+- Reads aligned to the hg38 reference genome using Bowtie2.
 
-- Very low duplication rates (4–18%)
+- Alignment rates ranged between 85–98%, indicating high-quality ChIP enrichment.
 
-- Perfect base quality (Q35–40)
+- BAM files were sorted, indexed, and quality-checked with samtools.
 
-- Correct GC distribution (40–43%)
+3. Peak Calling
 
-- No adapter contamination
+Peaks were called using MACS2, comparing MYC ChIP replicates to IgG controls.
 
-- No N-content issues
+Outputs include:
 
-These indicate high-quality ENCODE-grade datasets.
+- *.narrowPeak → High-confidence MYC binding regions
 
-## 2. Alignment (Bowtie2 → hg38)
+- *_summits.bed → Peak summits (highest enrichment)
 
-Steps:
+- *.xls → Peak statistics
 
-- Download hg38 reference genome
+These represent the MYC cistrome in A549 cells.
 
-- Build Bowtie2 index
+4. Peak Annotation
 
-- Align MYC and IgG reads
+Peak annotation was performed using ChIPseeker.
 
-- Convert SAM → BAM
+Analyses included:
 
-- Sort and index BAM
+- Genomic feature distribution
 
-Bowtie2 was selected because it is optimised for:
+- Peak-to-TSS distance
 
-- Short reads (36 bp)
+- Promoter/enhancer annotation
 
-- TF ChIP-Seq
+- Peak-to-gene mapping
 
-- Large genomes (human hg38)
+Key findings:
 
+- ~60% of peaks were located in promoter regions (<3 kb from TSS)
 
-## 3. Peak Calling (MACS2)
+- Strong enrichment around transcription start sites
 
-Peak calling was performed with
+- Additional binding within introns and distal regulatory elements
 
-```bash
-macs2 callpeak -t MYC_rep1.bam MYC_rep2.bam \
-               -c IgG_rep1.bam IgG_rep2.bam \
-               -f BAM -g hs --outdir peak_calling/
-```
-MACS2 outputs produced:
+5. Functional Enrichment Analysis
 
-- narrowPeak files (primary peaks)
+Gene-level functional interpretation was performed using:
 
-- summits.bed (motif sites)
+- clusterProfiler
 
-- .xls statistics
+- org.Hs.eg.db
 
-- bigWig / bedGraph files (optional)
+- msigdbr (MSigDB Hallmark gene sets)
 
-MACS2 effectively finds locations where MYC signal exceeds IgG background.
+Analyses included:
 
-## 4. Annotation of Peaks
+- Gene Ontology (Biological Processes)
 
-Tools used:
+- KEGG Pathway Enrichment
 
-- ChIPseeker
+- Hallmark Pathway Enrichment
 
-- HOMER (motifs)
+Enriched biological programs include:
 
-Outputs:
+- Cell cycle progression
 
-- Promoter/enhancer assignments
+- DNA replication
 
-- Distance to TSS
+- RNA processing and transcription
 
-- Gene names for MYC-bound regions
+- Ribosomal biogenesis and translation
 
-- Motif enrichment (E-box CACGTG expected)
+- Metabolic reprogramming
 
-## 5. Functional Enrichment
+- Oxidative phosphorylation
 
-Performed using GSEApy:
+- MYC targets (Hallmark V1/V2)
 
-- GO Biological Process
+- E2F target activation
 
-- GO Molecular Function
+- G2/M checkpoint regulation
 
-- GO Cellular Component
+These results represent canonical MYC-driven oncogenic pathways.
 
-- KEGG pathways
+Key Biological Insights
 
-Enrichment for MYC targets included:
+The analysis reveals that MYC:
 
-- Ribosome biogenesis
+1. Binds predominantly at promoters
 
-- Cell-cycle regulation
+High promoter occupancy indicates MYC directly regulates transcription initiation in A549 cells.
 
-- RNA metabolism
+2. Drives proliferative and metabolic gene programs
 
-- Oncogenic signalling pathways
+Enrichment of MYC hallmark signatures, E2F targets, and cell cycle pathways confirms MYC's central role in cancer proliferation.
 
-All results saved in:
-[Enrichment Results Folder](results/enrichment_results/)
+3. Activates transcriptional and translational machinery
 
+GO and KEGG analyses highlight MYC regulation of ribosome production, RNA metabolism, and DNA replication.
 
+4. Supports oncogenic signaling in lung adenocarcinoma
 
-## 6. Visualization
+Enrichment of G2M checkpoint and oxidative phosphorylation pathways suggests MYC drives both growth and metabolic rewiring.
 
-Figures include:
-### **Genome-wide MYC binding strength**
-![Genome-wide MYC peaks](MYC_genome_wide_peaks.png)
+Overall, this dataset captures a high-fidelity MYC regulatory landscape typical of MYC-driven tumors.
 
-### **MYC binding around EGFR TSS**
-![EGFR binding](MYC_EGFR_binding.png)
 
-### **MYC binding around FOSL1 TSS**
-![FOSL1 binding](MYC_FOSL1_binding.png)
+## Future Work
 
-### **MYC binding around TP53 TSS**
-![TP53 binding](MYC_TP53_binding.png)
+This project is Layer 1 of a multi-omics regulatory analysis.
+Upcoming analyses will include:
 
-### **MYC binding upstream of HES4**
-![HES4 binding](MYC_HES4_binding.png)
+Layer 2: RNA-seq Integration
 
+- Differential gene expression
 
-Located in:
-[results/figures/](results/figures)
+- Identification of transcriptionally active MYC targets
 
+- MYC-activated vs. MYC-repressed gene classification
 
-## Key Findings (summary)
+Layer 3: ATAC-seq Integration
 
-- High-confidence MYC peaks were identified across the genome.
+- Chromatin accessibility at MYC binding sites
 
-- MYC binds promoters of major cancer-related genes (EGFR, FOSL1, etc.).
+- Open vs. closed chromatin characterization
 
-- Motif analysis reveals strong enrichment of canonical E-box motifs.
+- Integration with MYC-driven transcriptional activity
 
-- Functional enrichment highlights MYC’s role in ribosome biogenesis, cell proliferation, and metabolic regulation.
-
-- Results align with known MYC oncogenic behaviour in LUAD.
-
-## How to Run This Pipeline
-Clone the repo
-
-```bash
-git clone https://github.com/Kusuru-Meghana/LUAD_MYC_ChIPseq.git
-cd LUAD_MYC_ChIPseq
-```
-
-Run the entire pipeline
-```bash
-Scripts/run_chipseq_pipeline.sh
-```
-
-Run enrichment analysis
-```
-python3 Scripts/run_enrichment.py
-```
-
-
-## Software Requirements
-
-- FastQC
-
-- MultiQC
-
-- Bowtie2
-
-- Samtools
-
-- MACS2
-
-- ChIPseeker (R)
-
-- HOMER
-
-- GSEApy (Python)
-
-- Environment files (conda/Docker) can be added on request.
-
-# Author
+## Author
 
 Meghana Kusuru
-LUAD MYC ChIP-Seq Analysis
-2025
-
-
+Bioinformatics & Computational Biology
+University of Delaware
