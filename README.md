@@ -2,28 +2,18 @@
 
 ## Overview
 
-This repository contains a complete, reproducible ChIP-Seq workflow to identify genome-wide MYC binding sites in the A549 lung adenocarcinoma cell line.
-The project includes:
+This repository contains a complete ChIP-seq analysis of the MYC transcription factor in A549 lung adenocarcinoma cells. The goal of this project is to define the genome-wide MYC binding landscape (cistrome) and characterize the biological pathways, regulatory programs, and transcriptional processes controlled by MYC in lung cancer.
 
-- Data acquisition from SRA
+This analysis constitutes Layer 1 of a planned multi-omics regulatory map (ChIP-seq → RNA-seq → ATAC-seq).
 
-- Quality control (FastQC + MultiQC)
+## Objective
+- Identify high-confidence MYC binding sites across the genome.
 
-- Alignment to hg38 using Bowtie2
+- Annotate peaks to genes and genomic features.
 
-- Peak calling with MACS2
+- Characterize biological processes and pathways enriched among MYC-bound genes.
 
-- Annotation of MYC peaks
-
-- GO/KEGG functional enrichment
-
-- Visualization of MYC binding profiles
-
-- Figures, logs, and processed results
-
-This project serves as a full end-to-end example of transcription factor ChIP-Seq analysis, following ENCODE standards.
-
-## Biological Motivation
+- Establish the role of MYC in regulating transcription, proliferation, and oncogenic signaling in A549 cells.
 
 ### What is MYC?
 
@@ -73,6 +63,31 @@ ChIP-Seq provides:
 - Regulatory circuits
 
 - Cancer-specific MYC targets
+
+## Project Structure
+
+LUAD_MYC_ChIPseq/
+│
+├── raw_fastq/                # Raw FASTQ files (not included due to size)
+├── qc/                       # FastQC and MultiQC reports
+├── aligned_bam/              # Sorted BAM and index files (not included)
+├── peaks/                    # MACS2 peak outputs (.narrowPeak, .xls, summits)
+│
+├── Annotation/
+│   ├── MYC_A549_peak_annotations.csv
+│   ├── MYC_A549_peak_annotation_plots.pdf
+│
+├── Functional_enrichment/
+│   ├── GO_results.csv
+│   ├── KEGG_results.csv
+│   ├── Hallmark_results.csv
+│
+├── scripts/
+│   ├── chipseq_pipeline.sh         # Processing workflow
+│   ├── enrichment_analysis.R       # GO/KEGG/Hallmark enrichment
+│
+├── MYC_ChIPseq_Friendly_Summary.pdf
+└── README.md
 
 
 ## Biological Samples
